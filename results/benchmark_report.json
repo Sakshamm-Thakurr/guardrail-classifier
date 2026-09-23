@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "n_examples": 41,
+    "positive_rate": 0.4878048780487805
+  },
+  "detectors": {
+    "Fine-tuned guardrail (ours)": {
+      "metrics": {
+        "accuracy": 0.878,
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1": 0.8889,
+        "true_positive": 20,
+        "true_negative": 16,
+        "false_positive": 5,
+        "false_negative": 0
+      },
+      "latency": {
+        "p50_ms": 23.057,
+        "p95_ms": 39.615,
+        "p99_ms": 58.177,
+        "mean_ms": 25.865
+      }
+    },
+    "Garak keyword detector": {
+      "metrics": {
+        "accuracy": 0.5366,
+        "precision": 1.0,
+        "recall": 0.05,
+        "f1": 0.0952,
+        "true_positive": 1,
+        "true_negative": 21,
+        "false_positive": 0,
+        "false_negative": 19
+      },
+      "latency": {
+        "p50_ms": 0.002,
+        "p95_ms": 0.006,
+        "p99_ms": 0.012,
+        "mean_ms": 0.003
+      }
+    },
+    "PyRIT substring scorer": {
+      "metrics": {
+        "accuracy": 0.5122,
+        "precision": 0.5,
+        "recall": 0.05,
+        "f1": 0.0909,
+        "true_positive": 1,
+        "true_negative": 20,
+        "false_positive": 1,
+        "false_negative": 19
+      },
+      "latency": {
+        "p50_ms": 0.002,
+        "p95_ms": 0.007,
+        "p99_ms": 0.01,
+        "mean_ms": 0.003
+      }
+    }
+  }
+}

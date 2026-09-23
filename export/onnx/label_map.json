@@ -1,0 +1,10 @@
+{
+  "label2id": {
+    "benign": 0,
+    "attack": 1
+  },
+  "id2label": {
+    "0": "benign",
+    "1": "attack"
+  }
+}
