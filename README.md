@@ -9,30 +9,24 @@ Served as a FastAPI microservice with ONNX export for fast inference.
 
 ## Results
 
-Trained on a 276-example dataset (JailbreakBench + Alpaca benign examples +
-a 76-row hand-labeled corpus I wrote myself), evaluated on a held-out test
-set of 41 examples (48.8% attacks):
+Trained on a ~1,470-example dataset (JailbreakBench harmful + benign splits,
+700 Alpaca benign examples, and a 570-row hand-labeled corpus I wrote
+myself), evaluated on a held-out test set of **485 examples** (27.8% attacks):
 
 | Detector                         | Precision | Recall | F1       | p50 latency | p95 latency |
 | -------------------------------- | --------- | ------ | -------- | ----------- | ----------- |
-| **Fine-tuned DistilBERT (mine)** | 0.80      | 1.00   | **0.89** | 23ms        | 40ms        |
-| Garak keyword detector           | 1.00      | 0.05   | 0.10     | 0.002ms     | 0.006ms     |
-| PyRIT substring scorer           | 0.50      | 0.05   | 0.09     | 0.002ms     | 0.007ms     |
+| **Fine-tuned DistilBERT (mine)** | 0.97      | 0.85   | **0.91** | 25ms        | 41ms        |
+| Garak keyword detector           | 1.00      | 0.12   | 0.21     | 0.002ms     | 0.003ms     |
+| PyRIT substring scorer           | 0.83      | 0.14   | 0.24     | 0.002ms     | 0.003ms     |
 
-The fine-tuned model caught every attack in the test set (recall 1.0), with
-5 false positives on benign prompts. The keyword/substring baselines missed
-almost everything — they only fire on exact-ish phrase matches, so anything
-even slightly reworded slips past them. That gap is expected and is the
-whole point of running the comparison: keyword matching is a weak baseline
-by design, and a fine-tuned classifier should beat it by a wide margin if
-it's doing its job.
-
-**Caveat I want to be upfront about:** 41 test examples is a small sample.
-This F1 is real, not fabricated — but it's not the kind of number you'd get
-from a 500-example benchmark, and it'll move around if I add more data. I'm
-treating this as a working proof of concept, not a final production number.
-See `results/benchmark_report.json` / `.md` for the exact run this table
-came from.
+The fine-tuned model catches 85% of attacks with only 4 false positives out
+of 350 benign prompts (TP=115, FP=4, FN=20, TN=346). The keyword/substring
+baselines miss most attacks (recall 0.12-0.14) because they only fire on
+near-exact phrase matches — anything reworded slips past them. That gap is
+expected and is the whole point of running the comparison: keyword matching
+is a weak baseline by design, and a fine-tuned classifier should beat it by
+a wide margin if it's doing its job. See `results/benchmark_report.json` /
+`.md` for the exact run this table came from.
 
 ## How it works
 
@@ -58,7 +52,7 @@ Labeled dataset (JailbreakBench + Alpaca + my own corpus)
 guardrail-classifier/
   data/
     prepare_dataset.py     merges JailbreakBench, AdvBench, Alpaca with my custom corpus
-    custom_corpus.jsonl    76 hand-labeled rows I wrote (benign / injection / jailbreak)
+    custom_corpus.jsonl    570 hand-labeled rows I wrote (benign / injection / jailbreak)
     processed/             the actual train/val/test split used for the results above
     schema.md              label schema
   train/
@@ -105,11 +99,11 @@ python export/export_onnx.py --model_dir train/output/best --out export/onnx --q
 python benchmark/run_benchmark.py --test_set data/processed/test.jsonl --model_dir export/onnx
 ```
 
-I trained this on Colab's free T4 GPU — the whole pipeline runs in well
-under 30 minutes, dataset download included. `garak` and `pyrit` are
-optional; if they're not installed, the benchmark scripts fall back to
-logic-equivalent detectors documented in `garak_baseline.py` /
-`pyrit_baseline.py`, so the comparison still runs.
+I trained this on Colab's free T4 GPU — the whole pipeline (dataset build,
+training on ~840 rows, export, benchmark on 485 rows) runs in well under 30
+minutes. `garak` and `pyrit` are optional; if they're not installed, the
+benchmark scripts fall back to logic-equivalent detectors documented in
+`garak_baseline.py` / `pyrit_baseline.py`, so the comparison still runs.
 
 To serve it locally:
 
@@ -130,8 +124,8 @@ reporting a number in isolation.
 
 ## What I'd do next
 
-- Grow the custom corpus past 76 rows — that's the cheapest way to make the
-  test set (and the F1 number) more statistically solid.
 - Add AdvBench once I have Hugging Face auth set up for gated datasets — it
   was skipped in this run since it requires authentication.
 - Try ModernBERT-base and compare against DistilBERT on the same split.
+- Push the model to Hugging Face (`export/push_to_hub.py`) so the weights
+  are independently checkable, not just a self-reported number.
