@@ -41,13 +41,10 @@
       "special": true
     }
   },
-  "backend": "tokenizers",
   "clean_up_tokenization_spaces": false,
   "cls_token": "[CLS]",
   "do_lower_case": true,
   "extra_special_tokens": {},
-  "is_local": false,
-  "local_files_only": false,
   "mask_token": "[MASK]",
   "max_length": 256,
   "model_max_length": 512,
@@ -56,7 +53,7 @@
   "stride": 0,
   "strip_accents": null,
   "tokenize_chinese_chars": true,
-  "tokenizer_class": "BertTokenizer",
+  "tokenizer_class": "DistilBertTokenizer",
   "truncation_side": "right",
   "truncation_strategy": "longest_first",
   "unk_token": "[UNK]"

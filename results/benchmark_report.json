@@ -1,61 +1,61 @@
 {
   "meta": {
-    "n_examples": 41,
-    "positive_rate": 0.4878048780487805
+    "n_examples": 485,
+    "positive_rate": 0.27835051546391754
   },
   "detectors": {
     "Fine-tuned guardrail (ours)": {
       "metrics": {
-        "accuracy": 0.878,
-        "precision": 0.8,
-        "recall": 1.0,
-        "f1": 0.8889,
-        "true_positive": 20,
-        "true_negative": 16,
-        "false_positive": 5,
-        "false_negative": 0
+        "accuracy": 0.9505,
+        "precision": 0.9664,
+        "recall": 0.8519,
+        "f1": 0.9055,
+        "true_positive": 115,
+        "true_negative": 346,
+        "false_positive": 4,
+        "false_negative": 20
       },
       "latency": {
-        "p50_ms": 23.057,
-        "p95_ms": 39.615,
-        "p99_ms": 58.177,
-        "mean_ms": 25.865
+        "p50_ms": 24.607,
+        "p95_ms": 41.368,
+        "p99_ms": 67.506,
+        "mean_ms": 26.968
       }
     },
     "Garak keyword detector": {
       "metrics": {
-        "accuracy": 0.5366,
+        "accuracy": 0.7546,
         "precision": 1.0,
-        "recall": 0.05,
-        "f1": 0.0952,
-        "true_positive": 1,
-        "true_negative": 21,
+        "recall": 0.1185,
+        "f1": 0.2119,
+        "true_positive": 16,
+        "true_negative": 350,
         "false_positive": 0,
-        "false_negative": 19
+        "false_negative": 119
       },
       "latency": {
         "p50_ms": 0.002,
-        "p95_ms": 0.006,
-        "p99_ms": 0.012,
-        "mean_ms": 0.003
+        "p95_ms": 0.003,
+        "p99_ms": 0.008,
+        "mean_ms": 0.002
       }
     },
     "PyRIT substring scorer": {
       "metrics": {
-        "accuracy": 0.5122,
-        "precision": 0.5,
-        "recall": 0.05,
-        "f1": 0.0909,
-        "true_positive": 1,
-        "true_negative": 20,
-        "false_positive": 1,
-        "false_negative": 19
+        "accuracy": 0.7526,
+        "precision": 0.8261,
+        "recall": 0.1407,
+        "f1": 0.2405,
+        "true_positive": 19,
+        "true_negative": 346,
+        "false_positive": 4,
+        "false_negative": 116
       },
       "latency": {
         "p50_ms": 0.002,
-        "p95_ms": 0.007,
-        "p99_ms": 0.01,
-        "mean_ms": 0.003
+        "p95_ms": 0.003,
+        "p99_ms": 0.005,
+        "mean_ms": 0.002
       }
     }
   }
